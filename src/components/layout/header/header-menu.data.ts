@@ -30,4 +30,4 @@ export const headerMenu = [
     href: PagesConfig.CART,
 
   }
-]
+] as const
