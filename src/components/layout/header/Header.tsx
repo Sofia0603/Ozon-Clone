@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import {LayoutGrid, Search} from "lucide-react";
-import {headerMenu} from "@/components/layout/header-menu.data";
+import {headerMenu} from "@/components/layout/header/header-menu.data";
 import Link from "next/link";
 
 import cn from 'clsx'

@@ -1,10 +1,12 @@
-import {topMenu} from "@/components/layout/top-menu.data";
+import {topMenu} from "@/components/layout/top-menu/top-menu.data";
 import Link from "next/link";
 import cn from "clsx";
+import {LanguageSwitcher} from "@/components/layout/language-switcher/LanguageSwitcher";
 
 export function TopMenu(){
     return (
-        <nav className="flex items-center gap-6 mt-6 mx-5">
+        <div>
+            <nav className="flex items-center gap-6 mt-6 mx-5">
             {topMenu.map((menuItem,index) => (
                 <Link
                     key={menuItem.title}
@@ -25,5 +27,15 @@ export function TopMenu(){
                 </Link>
             ))}
         </nav>
+
+            <div className="font-medium">
+                Москва &gt; {' '}
+                <button className='text-primary font-semibold'>Укажите адрес</button>
+            </div>
+
+            <div>
+                <LanguageSwitcher />
+            </div>
+        </div>
     )
 }

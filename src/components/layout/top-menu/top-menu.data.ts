@@ -1,11 +1,16 @@
 import {
-  Banana, BriefcaseBusiness, CreditCard, Plane,
+  Banana, BriefcaseBusiness, CreditCard, LucideIcon, Plane,
 
 } from "lucide-react";
 import {PagesConfig} from "@/config/config.pages";
 
-export const topMenu = [
+export interface ITopMenuItem{
+  title: string;
+  href: string;
+  icon?: LucideIcon
+}
 
+export const topMenu: ITopMenuItem[] = [
   {
     title: "Озон fresh",
     icon: Banana,
@@ -47,4 +52,5 @@ export const topMenu = [
     href: PagesConfig.CERTIFICATES,
   },
 
-]
+] as const
+
