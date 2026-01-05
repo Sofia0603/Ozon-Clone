@@ -9,7 +9,8 @@ import cn from 'clsx'
 
 export function Header() {
   return  (
-    <header className="grid grid-cols-[1fr_1fr_7fr_2fr] gap-5 items-center mt-3 mx-5">
+    <header className="grid grid-cols-[2fr_7fr_2fr] gap-5 items-center pt-3 mx-5">
+    <div className='flex items-center gap-7'>
       <Image
         src="/ozon.png"
         alt="ozon"
@@ -17,11 +18,11 @@ export function Header() {
         height={60}
       />
 
-      <button className='bg-primary p-2 rounded-lg text-white flex items-center gap-2'>
+      <button className='bg-primary p-2 rounded-lg text-white flex items-center gap-2 font-medium'>
         <LayoutGrid/>
         <span>Каталог</span>
       </button>
-
+    </div>
 
       <div className='rounded-xl p-1 flex items-center bg-primary'>
         <input
@@ -37,7 +38,7 @@ export function Header() {
       </div>
 
 
-      <div className="flex gap-5 items-center ml-2">
+      <div className="flex gap-5 items-center ml-2 justify-end">
         {headerMenu.map((item, index) => (
           <Link
             key={item.title}
