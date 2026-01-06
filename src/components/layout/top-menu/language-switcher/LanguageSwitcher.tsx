@@ -1,22 +1,28 @@
 'use client'
-
-import {useMemo, useState} from "react";
+import {useMemo} from "react";
 import {LANGUAGES} from "@/components/layout/top-menu/language-switcher/languages.data";
-import cookies from "js-cookie";
+import {usePathname, useRouter} from "@/i18n/navigation";
+import {useLocale} from "use-intl";
+import { useTransition } from "react";
 
 export function LanguageSwitcher(){
+    const router = useRouter()
+    const pathname = usePathname()
+    const locale = useLocale()
+    const [isPending, startTransition] = useTransition();
 
-    const [currentLanguage, setCurrentLanguage] = useState<'en' | 'ru'>(cookies.get('locale') === 'en' ? 'en' : 'ru')
 
     const toggleHandler = () => {
-      const newLanguage = currentLanguage === 'ru' ? 'en' : 'ru' ;
-      setCurrentLanguage(newLanguage);
-      cookies.set('locale', newLanguage);
+      const newLanguage = locale === 'ru' ? 'en' : 'ru'
+
+      startTransition(()=> {
+        router.replace(pathname, {locale: newLanguage});
+      })
     }
 
     const language = useMemo(() => {
-        return LANGUAGES.find((lang => lang.code === currentLanguage))
-    }, [currentLanguage])
+        return LANGUAGES.find((lang => lang.code === locale))
+    }, [locale])
 
 
     return (
@@ -24,7 +30,9 @@ export function LanguageSwitcher(){
       onClick={toggleHandler}
       >
         <span className="text-lg group-hover:rotate-6 transition-transform">
-            {language?.flag}
+            {isPending ? (
+              <span className="ml-1 animate-spin">⏳</span>
+            ) : (language?.flag)}
         </span>
         <span className="uppercase font-medium opacity-50
         transition-opacity group-hover:opacity-100">

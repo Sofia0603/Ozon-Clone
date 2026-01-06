@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e2c77113-7b5a-4202-a4e7-3d135e110591" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/messages/en.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/messages/ru.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/layout/top-menu/language-switcher/LanguageSwitcher.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/i18n/request.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/header/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/language-switcher/LanguageSwitcher.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/language-switcher/languages.data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/top-menu/language-switcher/languages.data.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/top-menu/TopMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/top-menu/TopMenu.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="e2c77113-7b5a-4202-a4e7-3d135e110591" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

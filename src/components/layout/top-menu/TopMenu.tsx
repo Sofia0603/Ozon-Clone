@@ -7,7 +7,7 @@ import {Dot} from "lucide-react";
 export function TopMenu(){
     return (
         <div className="flex justify-between items-center mt-6 mx-5">
-            <nav className="flex items-center gap-6 ">
+            <nav className="flex items-center gap-4 ">
             {topMenu.map((menuItem,index) => (
                 <Link
                     key={menuItem.title}
