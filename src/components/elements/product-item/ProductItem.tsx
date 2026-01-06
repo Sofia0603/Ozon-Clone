@@ -1,7 +1,5 @@
 interface Props {
-  productId?: string
+  productId?: string;
 }
 
-export default function ProductItem({}: Props) {
-
-}
+export default function ProductItem({}: Props) {}
