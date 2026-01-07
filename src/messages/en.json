@@ -2,5 +2,11 @@
   "header": {
     "catalogTitle": "Catalog",
     "searchPlaceholder": "Search in Ozon..."
+  },
+  "menu": {
+    "auth": "login",
+    "orders": "orders",
+    "favorites": "favorites",
+    "basket": "basket"
   }
 }

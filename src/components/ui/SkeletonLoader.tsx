@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/utils/cn';
 import React from 'react';
 
 interface SkeletonLoaderProps {
@@ -9,9 +10,12 @@ interface SkeletonLoaderProps {
 
 export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ count = 1, className }) => {
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="w-full h-40 bg-gray-300 rounded animate-pulse" />
+    <div>
+      {Array.from({ length: count }).map((_, index) => (
+        <div
+          key={index}
+          className={cn('w-full h-10 bg-gray-300 rounded animate-pulse mb-4', className)}
+        />
       ))}
     </div>
   );

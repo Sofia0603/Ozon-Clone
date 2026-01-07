@@ -7,7 +7,7 @@ export function Field({ className, ...rest }: Props) {
   return (
     <input
       className={cn(
-        'w-full border border-transparent transition-colors focus:border-primary px-4 py-2 mb-2',
+        'w-full border-2 border-zinc-300 transition-colors focus:border-primary rounded-lg px-3 py-3 mb-3',
         className
       )}
       {...rest}

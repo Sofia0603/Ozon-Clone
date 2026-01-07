@@ -3,11 +3,6 @@ import { PagesConfig } from '@/config/config.pages';
 
 export const headerMenu = [
   {
-    title: 'Войти',
-    icon: User,
-    href: PagesConfig.LOGIN,
-  },
-  {
     title: 'Заказы',
     icon: Package,
     href: PagesConfig.ORDERS,
