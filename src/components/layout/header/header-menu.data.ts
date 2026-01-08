@@ -1,33 +1,20 @@
-import {
-  Heart,
-  Package,
-  ShoppingBasket,
-  User
-} from "lucide-react";
-import {PagesConfig} from "@/config/config.pages";
+import { Heart, Package, ShoppingBasket, User } from 'lucide-react';
+import { PagesConfig } from '@/config/config.pages';
 
 export const headerMenu = [
-
   {
-    title: "Войти",
-    icon: User,
-    href: PagesConfig.LOGIN,
-  },
-  {
-    title: "Заказы",
+    title: 'Заказы',
     icon: Package,
     href: PagesConfig.ORDERS,
   },
   {
-    title: "Избранное",
+    title: 'Избранное',
     icon: Heart,
     href: PagesConfig.FAVORITES,
-
   },
   {
-    title: "Корзина",
+    title: 'Корзина',
     icon: ShoppingBasket,
     href: PagesConfig.CART,
-
-  }
-] as const
+  },
+] as const;
