@@ -65,7 +65,7 @@ export function Auth({ setIsOpen, ref }: Props) {
           />
           <Field
             type="text"
-            placeholder="Введите имя: "
+            placeholder="Введите имя*: "
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full border px-4 py-2 mb-2"

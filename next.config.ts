@@ -4,6 +4,16 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ir.ozone.ru',
+        port: '',
+        pathname: '/**'
+      }
+    ]
+  }
 };
 
 const withNextIntl = createNextIntlPlugin();

@@ -8,12 +8,30 @@ import Link from 'next/link';
 import cn from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
-import { Auth } from './Auth'
+import { Auth } from './Auth';
+import { useSession } from '@/lib/auth-client';
+import { ProfileMenu } from './ProfileMenu';
+import { useEffect } from 'react'
 
 export function Header() {
   const tHeader = useTranslations('header');
 
+  const { data } = useSession();
+
   const { isOpen, ref, setIsOpen } = useOutsideClick<HTMLDivElement>(false);
+
+  const {
+    isOpen: isProfileMenuOpen,
+    ref: profileMenuRef,
+    setIsOpen: setProfileMenuOpen,
+  } = useOutsideClick<HTMLDivElement>(false);
+
+
+  useEffect(()=> {
+    if(data?.user){
+      setIsOpen(false)
+    }
+  }, [data, setIsOpen])
 
   return (
     <>
@@ -42,17 +60,34 @@ export function Header() {
         </div>
 
         <div className="flex gap-5 items-center ml-2 justify-end">
-          <button className={cn('flex flex-col items-center')} onClick={() => setIsOpen(true)}>
-            <User size={20} />
-            <span className="text-sm font-medium">Войти</span>
-          </button>
+          {data?.user ? (
+            <div className="relative" ref={profileMenuRef}>
+              <button
+                onClick={() => {
+                  setProfileMenuOpen(!isProfileMenuOpen);
+                }}
+                className={cn('flex flex-col items-center')}
+              >
+                <User size={20} />
+
+                <span className="text-sm font-medium">{data.user.name || data.user.email}</span>
+              </button>
+
+              {isProfileMenuOpen && <ProfileMenu setIsProfileMenuOpen={setProfileMenuOpen} />}
+            </div>
+          ) : (
+            <button className={cn('flex flex-col items-center')} onClick={() => setIsOpen(true)}>
+              <User size={20} />
+              <span className="text-sm font-medium">Войти</span>
+            </button>
+          )}
 
           {headerMenu.map((item) => (
             <Link
               key={item.title}
               href={item.href}
               className={cn(
-                'flex flex-col items-center transition-opacity hover:opacity-100 opacity-50',
+                'flex flex-col items-center transition-opacity hover:opacity-100 opacity-50'
               )}
             >
               <item.icon size={20} />
