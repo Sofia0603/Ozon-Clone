@@ -1,7 +1,12 @@
-import { TProduct, TProductWithReviews } from '@/lib/db/types';
+'use client';
+
+import { TProductWithReviews } from '@/lib/db/types';
+import { favoritesProductIdAtom } from '@/store';
 import { addCurrency } from '@/utils/add-currency';
 import { cn } from '@/utils/cn';
-import { Heart, MessageCircle, Star, StarsIcon } from 'lucide-react';
+import { declensionWord } from '@/utils/declation-word';
+import { useAtom } from 'jotai';
+import { Heart, MessageCircle, Star } from 'lucide-react';
 import Image from 'next/image';
 import { useMemo } from 'react';
 
@@ -10,6 +15,8 @@ interface Props {
 }
 
 export function ProductItem({ product }: Props) {
+  const [favoritesProductId, setFavoritesProductId] = useAtom(favoritesProductIdAtom);
+
   const discountPrecent = useMemo(() => {
     if (!product.discountPrice) {
       return null;
@@ -22,10 +29,32 @@ export function ProductItem({ product }: Props) {
       return 0;
     }
 
-    const total = product.reviews.reduce((acc, review) => acc + review, rating, 0);
+    const total = product.reviews.reduce((acc, review) => acc + review.rating, 0);
 
-    return Math.round(total / product.reviews.length)
+    return Math.round(total / product.reviews.length).toFixed(1);
   }, [product.reviews]);
+
+  const reviewCount = useMemo(() => {
+    const min = 1000;
+    const max = 50000;
+    const hash = String(product.id)
+      .split('')
+      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+
+    const randomNumber = min + (hash % (max - min + 1));
+
+    return randomNumber + product.reviews.length;
+  }, [product.reviews, product.id]);
+
+  const isFavorite = favoritesProductId.includes(product.id);
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      setFavoritesProductId((ids) => ids.filter((id) => id !== product.id));
+    } else {
+      setFavoritesProductId((ids) => [...ids, product.id]);
+    }
+  };
 
   return (
     <div>
@@ -39,8 +68,8 @@ export function ProductItem({ product }: Props) {
           className="object-cover h-93.25 rounded-2xl"
         />
 
-        <button className="absolute top-2 right-2">
-          <Heart fill="white" />
+        <button className="absolute top-2 right-2" onClick={toggleFavorite}>
+          <Heart fill={isFavorite ? 'red' : 'white'} stroke={isFavorite ? 'red' : 'black'} className='transition-colors'/>
         </button>
 
         {discountPrecent && discountPrecent > 50 && (
@@ -77,14 +106,16 @@ export function ProductItem({ product }: Props) {
       <div className="leading-snug">{product.name}</div>
 
       <div className="flex items-center gap-3 mt-2">
-        <div>
+        <div className="flex items-center gap-1">
           <Star size={16} className="fill-amber-400 stroke-amber-400" />
-          <span>{reviewAverage}</span>
+          <span className="font-semibold text-sm">{reviewAverage}</span>
         </div>
 
-        <div>
+        <div className="flex items-center gap-1">
           <MessageCircle size={16} className="fill-neutral-400 stroke-neutral-400" />
-          <span>{reviewCount}</span>
+          <span className="font-semibold text-sm text-neutral-400">
+            {reviewCount} {declensionWord(reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
+          </span>
         </div>
       </div>
     </div>

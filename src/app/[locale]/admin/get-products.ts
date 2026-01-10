@@ -1,5 +1,4 @@
 import { db } from '@/lib/db';
-import { types } from '@/lib/db/schema';
 
 export async function getAllProducts() {
   try {

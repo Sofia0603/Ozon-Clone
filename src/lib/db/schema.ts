@@ -108,11 +108,17 @@ export const productRelation = relations(product, ({ many }) => ({
 }));
 
 export const reviewRelation = relations(review, ({ one }) => ({
-  product: one(product),
-  user: one(user),
+  product: one(product, {
+    fields: [review.productId],
+    references: [product.id],
+  }),
+  user: one(user, {
+    fields: [review.userId],
+    references: [user.id],
+  }),
 }));
 
 export const userRealtion = relations(user, ({ many }) => ({
-  reviews: many (review),
-  orders: many(order)
+  reviews: many(review),
+  orders: many(order),
 }));

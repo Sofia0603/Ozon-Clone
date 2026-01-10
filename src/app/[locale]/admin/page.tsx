@@ -18,6 +18,42 @@ export default function AdminPage({}: Props) {
   const [imageUrl, setImageUrl] = useState('');
   const [message, setMessage] = useState('');
 
+  const [reviewProductId, setReviewProductId] = useState('');
+  const [reviewUserId, setReviewUserId] = useState('');
+  const [rating, setRating] = useState('');
+  const [comment, setComment] = useState('');
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: reviewProductId,
+          userId: reviewUserId,
+          rating: Number(rating),
+          comment,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setMessage('Отзыв добавлен');
+        setReviewProductId('');
+        setReviewUserId('');
+        setRating('');
+        setComment('');
+      } else {
+        setMessage(`Ошибка: ${data.error}`);
+      }
+    } catch {
+      setMessage('Ошибка сервера');
+    }
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await fetch('/api/products');
@@ -129,6 +165,59 @@ export default function AdminPage({}: Props) {
             </button>
           </form>
           {message && <p className="mt-4 text-green-600">{message}</p>}
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+          <h2 className="text-xl font-semibold mb-4">Добавить отзыв</h2>
+
+          <form onSubmit={handleReviewSubmit} className="flex flex-col gap-3">
+            <select
+              value={reviewProductId}
+              onChange={(e) => setReviewProductId(e.target.value)}
+              required
+              className="border p-2 rounded"
+            >
+              <option value="">Выберите товар</option>
+              {products.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+
+            <input
+              value={reviewUserId}
+              onChange={(e) => setReviewUserId(e.target.value)}
+              placeholder="ID пользователя"
+              required
+              className="border p-2 rounded"
+            />
+
+            <input
+              type="number"
+              min="1"
+              max="5"
+              step="0.5"
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              placeholder="Рейтинг (1–5)"
+              required
+              className="border p-2 rounded"
+            />
+
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Комментарий"
+              className="border p-2 rounded"
+            />
+
+            <button
+              type="submit"
+              className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
+            >
+              Добавить отзыв
+            </button>
+          </form>
         </div>
       </div>
 
