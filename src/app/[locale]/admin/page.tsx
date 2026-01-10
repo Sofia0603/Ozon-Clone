@@ -1,7 +1,7 @@
 'use client';
 
 import { TProduct } from '@/lib/db/types';
-import { Trash2 } from 'lucide-react'
+import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -27,19 +27,18 @@ export default function AdminPage({}: Props) {
     fetchProducts();
   }, []);
 
-
   const deleteHandler = async (id: string) => {
     try {
       const res = await fetch('/api/products', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id }), 
+        body: JSON.stringify({ id }),
       });
-  
+
       const data = await res.json();
       if (data.success) {
         setMessage('Товар удалён!');
-        setProducts(prev => prev.filter(p => p.id !== id)); 
+        setProducts((prev) => prev.filter((p) => p.id !== id));
       } else {
         setMessage(`Ошибка: ${data.error}`);
       }
@@ -135,17 +134,23 @@ export default function AdminPage({}: Props) {
 
       <div className="flex flex-col gap-3">
         {products.map((product) => (
-          <div className="p-4 bg-white shadow-xl rounded-xl flex gap-2 items-start justify-between" key={product.id}>
-            <Image src={product.imageUrl} width={120} height={140} className="rounded-lg" />
-            <div className='justify-self-start'>
+          <div
+            className="p-4 bg-white shadow-xl rounded-xl flex gap-2 items-start justify-between"
+            key={product.id}
+          >
+            <Image
+              src={product.imageUrl}
+              width={120}
+              height={140}
+              className="rounded-lg"
+              alt={product.name}
+            />
+            <div className="justify-self-start">
               <div className="font-medium text-sm">{product.name}</div>
-              <span className='font-bold text-xl mt-40'>{product.price}</span>
+              <span className="font-bold text-xl mt-40">{product.price}</span>
             </div>
-            <button
-            onClick={()=> deleteHandler(product.id)}
-            className=''
-              >
-              <Trash2 className='stroke-red-900'/>
+            <button onClick={() => deleteHandler(product.id)} className="">
+              <Trash2 className="stroke-red-900" />
             </button>
           </div>
         ))}

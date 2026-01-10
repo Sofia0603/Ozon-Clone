@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
         hostname: 'ir.ozone.ru',
         port: '',
         pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'ir-8.ozone.ru',
+        port: '',
+        pathname: '/**'
       }
     ]
   }

@@ -1,5 +1,6 @@
 import { sqliteTable, text, integer, real, int } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm/sql/sql';
+import { relations } from 'drizzle-orm';
 
 export const user = sqliteTable('users', {
   id: text('id').primaryKey(),
@@ -41,14 +42,14 @@ export const session = sqliteTable('sessions', {
     .references(() => user.id, { onDelete: 'cascade' }),
   expiresAt: text('expires_at').notNull(),
   token: text('token').notNull().unique(),
-   createdAt: integer('createdAt')
+  createdAt: integer('createdAt')
     .notNull()
     .$defaultFn(() => Date.now()),
   updatedAt: integer('updatedAt')
     .notNull()
     .$defaultFn(() => Date.now()),
-    userAgent: text('userAgent'),
-    ipAddress: text('ipAddress')
+  userAgent: text('userAgent'),
+  ipAddress: text('ipAddress'),
 });
 
 export const review = sqliteTable('reviews', {
@@ -101,3 +102,17 @@ export const orderItem = sqliteTable('orderItems', {
   quantity: integer('quantity').notNull().default(1),
   price: integer('price').notNull(),
 });
+
+export const productRelation = relations(product, ({ many }) => ({
+  reviews: many(review),
+}));
+
+export const reviewRelation = relations(review, ({ one }) => ({
+  product: one(product),
+  user: one(user),
+}));
+
+export const userRealtion = relations(user, ({ many }) => ({
+  reviews: many (review),
+  orders: many(order)
+}));

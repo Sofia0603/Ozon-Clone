@@ -24,7 +24,7 @@ export default async function Home() {
 
       <Slider />
 
-      <div className="grid grid-cols-5 gap-10">
+      <div className="grid grid-cols-5 gap-10 mt-10 mb-10">
         {products.map((product) => (
           <ProductItem key={product.id} product={product} />
         ))}
