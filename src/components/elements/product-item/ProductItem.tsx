@@ -1,66 +1,24 @@
 'use client';
 
 import { TProductWithReviews } from '@/lib/db/types';
-import { favoritesProductIdAtom } from '@/store';
 import { addCurrency } from '@/utils/add-currency';
 import { cn } from '@/utils/cn';
-import { declensionWord } from '@/utils/declation-word';
-import { useAtom } from 'jotai';
+import { declensionWord } from '@/utils/declension-word';
 import { Heart, MessageCircle, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo } from 'react';
 import { PagesConfig } from '@/config/config.pages';
+import { useProductDetail } from '@/useProductDetail';
+import { useFavorite } from '@/hooks/useFavorite';
 
 interface Props {
   product: TProductWithReviews;
 }
 
 export function ProductItem({ product }: Props) {
-  const [favoritesProductId, setFavoritesProductId] = useAtom(favoritesProductIdAtom);
+  const { isFavorite, toggleFavorite } = useFavorite({ product });
 
-  console.log(product.reviews);
-
-  const reviews = product.reviews ?? [];
-
-  const discountPrecent = useMemo(() => {
-    if (!product.discountPrice) {
-      return null;
-    }
-    return Math.round(((product.price - product.discountPrice) / product.price) * 100);
-  }, [product.price, product.discountPrice]);
-
-  const reviewAverage = useMemo(() => {
-    if (reviews.length === 0) {
-      return 0;
-    }
-
-    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
-
-    return Math.round(total / reviews.length).toFixed(1);
-  }, [reviews]);
-
-  const reviewCount = useMemo(() => {
-    const min = 1000;
-    const max = 50000;
-    const hash = String(product.id)
-      .split('')
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-
-    const randomNumber = min + (hash % (max - min + 1));
-
-    return randomNumber + reviews.length;
-  }, [reviews, product.id]);
-
-  const isFavorite = favoritesProductId.includes(product.id);
-
-  const toggleFavorite = () => {
-    if (isFavorite) {
-      setFavoritesProductId((ids) => ids.filter((id) => id !== product.id));
-    } else {
-      setFavoritesProductId((ids) => [...ids, product.id]);
-    }
-  };
+  const { reviewCount, reviewAverage, discountPrecent } = useProductDetail({ product });
 
   return (
     <div>
