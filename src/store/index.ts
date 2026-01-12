@@ -1,3 +1,6 @@
-import { atom } from 'jotai'
+import { atomWithStorage } from 'jotai/utils'
 
-export const favoritesProductIdAtom = atom<string[]>([])
+export const favoritesProductIdAtom = atomWithStorage<string[]>(
+	'favoritesProductId',
+	[]
+)

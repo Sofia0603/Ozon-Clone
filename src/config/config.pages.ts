@@ -5,8 +5,8 @@ export class PagesConfig {
   static readonly FAVORITES = '/favorites'
   static readonly CART = '/cart'
 
-  static PRODUCT_DETAILS(slug: string) {
-    return `/product/${slug}`
+  static PRODUCT_DETAILS(id: string) {
+    return `/product/${id}`
   }
 
 
