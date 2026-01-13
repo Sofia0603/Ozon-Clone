@@ -13,7 +13,7 @@ export function ProductDetailsGallery({ product, discountPrecent }: Props) {
 
   return (
     <div className="flex items-start gap-2">
-      <div className="flex flex-col gap-2 h-[526px] overflow-y-auto">
+      <div className="flex flex-col gap-2 h-[680px] overflow-y-auto ">
         {product.images.map((img, index) => (
           <button
             className={cn(

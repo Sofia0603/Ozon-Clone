@@ -4,6 +4,8 @@ import { TProductWithReviews } from '@/lib/db/types'
 import { addCurrency } from '@/utils/add-currency'
 import { cn } from '@/utils/cn'
 import { Heart } from 'lucide-react'
+import { useId } from 'react'
+import { toast } from 'sonner'
 
 interface Props {
 	product: TProductWithReviews,
@@ -14,6 +16,11 @@ export function ProductPurchaseSection({ product, discountPrecent }: Props) {
 
   const { isFavorite, toggleFavorite } = useFavorite({ product });
 
+  const id = useId()
+
+  const purchaseProduct = () => {
+    toast.success('Товар добавлен в корзину', { id })
+  }
 
   return (
     <div>
@@ -39,7 +46,7 @@ export function ProductPurchaseSection({ product, discountPrecent }: Props) {
             )}
           </div>
           <div className="flex gap-4">
-            <Button>Добавить в корзину</Button>
+            <Button onClick={purchaseProduct}>Добавить в корзину</Button>
 
             <button onClick={toggleFavorite}>
               <Heart

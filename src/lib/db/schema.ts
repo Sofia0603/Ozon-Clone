@@ -6,7 +6,9 @@ export const user = sqliteTable('users', {
   id: text('id').primaryKey(),
   email: text('email').notNull().unique(),
   name: text('name'),
-  emailVerified: integer('email_verified', { mode: 'boolean' }).notNull().default(false),
+  emailVerified: integer('email_verified', { mode: 'boolean' })
+    .notNull()
+    .default(false),
   createdAt: integer('createdAt')
     .notNull()
     .$defaultFn(() => Date.now()),
@@ -73,8 +75,38 @@ export const product = sqliteTable('products', {
   description: text('description'),
   price: text('price').notNull(),
   discountPrice: text('discount_price'),
-  images: text('images', {mode: 'json'}).$type<string[]>().notNull(),
+  images: text('images', { mode: 'json' }).$type<string[]>().notNull(),
   createdAt: integer('createdAt')
+    .notNull()
+    .$defaultFn(() => Date.now()),
+});
+
+export const cart = sqliteTable('cart', {
+  id: text('id').primaryKey(),
+  userId: text('userId')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  createdAt: integer('createdAt')
+    .notNull()
+    .$defaultFn(() => Date.now()),
+  updatedAt: integer('updatedAt')
+    .notNull()
+    .$defaultFn(() => Date.now()),
+});
+
+export const cartItem = sqliteTable('cartItem', {
+  id: text('id').primaryKey(),
+  cartId: text('cart_id')
+    .notNull()
+    .references(() => cart.id, { onDelete: 'cascade' }),
+  productId: text('productId')
+    .notNull()
+    .references(() => product.id, { onDelete: 'cascade' }),
+  quantity: integer('quantity').notNull().default(1),
+  createdAt: integer('createdAt')
+    .notNull()
+    .$defaultFn(() => Date.now()),
+  updatedAt: integer('updatedAt')
     .notNull()
     .$defaultFn(() => Date.now()),
 });
@@ -118,7 +150,22 @@ export const reviewRelation = relations(review, ({ one }) => ({
   }),
 }));
 
-export const userRealtion = relations(user, ({ many }) => ({
+export const userRealtion = relations(user, ({ many, one }) => ({
   reviews: many(review),
   orders: many(order),
+  cart: one(cart, {
+    fields: [user.id],
+    references:[cart.userId] 
+  }),
+}));
+
+export const cartRealtion = relations(cart, ({ many }) => ({
+  items: many(cartItem),
+}));
+
+export const cartItemRealtion = relations(cartItem, ({ one }) => ({
+  product: one(product, {
+    fields: [cartItem.productId],
+    references: [product.id],
+  })
 }));
