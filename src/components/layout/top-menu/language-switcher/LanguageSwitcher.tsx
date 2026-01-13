@@ -4,6 +4,7 @@ import { LANGUAGES } from '@/components/layout/top-menu/language-switcher/langua
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useLocale } from 'use-intl';
 import { useTransition } from 'react';
+import { LandPlot, Loader } from 'lucide-react'
 
 export function LanguageSwitcher() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export function LanguageSwitcher() {
   return (
     <button className="flex items-center gap-1.5 group w-11" onClick={toggleHandler}>
       <span className="text-lg group-hover:rotate-6 transition-transform">
-        {isPending ? <span className="ml-1 animate-spin">⏳</span> : language?.flag}
+        {isPending ? <span className="ml-1 animate-spin"> <Loader size={14} className='text-neutral-400' /></span> : <LandPlot size={14} className='text-neutral-400'/>}
       </span>
       <span
         className="uppercase font-medium opacity-50 transition-opacity group-hover:opacity-100"

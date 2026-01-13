@@ -16,11 +16,11 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, description, price, discountPrice, imageUrl } = await req.json();
+    const { name, description, price, discountPrice, images } = await req.json();
 
-    if (!name || !price || !imageUrl) {
+    if (!name || !price || !images) {
       return NextResponse.json(
-        { error: 'name, price и imageUrl обязательны' },
+        { error: 'name, price и images обязательны' },
         { status: 400 }
       );
     }
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       description: description || '',
       price,
       discountPrice: discountPrice || null,
-      imageUrl,
+      images,
       createdAt: Date.now(),
     });
 

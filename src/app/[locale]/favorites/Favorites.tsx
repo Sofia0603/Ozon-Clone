@@ -2,11 +2,10 @@
 
 import { ProductItem } from '@/components/elements/product-item/ProductItem';
 import { SkeletonLoader } from '@/components/ui/SkeletonLoader';
-import { getProductsByIds } from '@/lib/adctions/product';
+import { getProductsByIds } from '@/lib/actions/getAllProductIds'
 import { favoritesProductIdAtom } from '@/store';
 import { useQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
-import { useState } from 'react'
 
 export function Favorites() {
 

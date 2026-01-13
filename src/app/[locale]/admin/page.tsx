@@ -10,12 +10,12 @@ interface Props {
 }
 
 export default function AdminPage({}: Props) {
-  const [products, setProducts] = useState<[]>([]);
+  const [products, setProducts] = useState<[TProduct]>([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [discountPrice, setDiscountPrice] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [images, setImages] = useState<string[]>(['']);
   const [message, setMessage] = useState('');
 
   const [reviewProductId, setReviewProductId] = useState('');
@@ -90,7 +90,13 @@ export default function AdminPage({}: Props) {
       const res = await fetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, description, price, discountPrice, imageUrl }),
+        body: JSON.stringify({
+          name,
+          description,
+          price,
+          discountPrice,
+          images: images.filter(Boolean),
+        }),
       });
       const data = await res.json();
       if (data.success) {
@@ -100,7 +106,7 @@ export default function AdminPage({}: Props) {
           description,
           price,
           discountPrice: discountPrice || null,
-          imageUrl,
+          images: images.filter(Boolean),
         };
         setProducts((prev) => [newProduct, ...prev]);
         setMessage(`Товар добавлен! ID: ${data.id}`);
@@ -108,7 +114,7 @@ export default function AdminPage({}: Props) {
         setDescription('');
         setPrice('');
         setDiscountPrice('');
-        setImageUrl('');
+        setImages('');
       } else {
         setMessage(`Ошибка: ${data.error}`);
       }
@@ -150,13 +156,27 @@ export default function AdminPage({}: Props) {
               placeholder="Цена со скидкой"
               className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            <input
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="URL картинки"
-              required
-              className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+            {images.map((img, index) => (
+              <input
+                key={index}
+                value={img}
+                onChange={(e) => {
+                  const newImages = [...images];
+                  newImages[index] = e.target.value;
+                  setImages(newImages);
+                }}
+                placeholder={`URL картинки ${index + 1}`}
+                className="border p-2 rounded"
+              />
+            ))}
+
+            <button
+              type="button"
+              onClick={() => setImages([...images, ''])}
+              className="text-blue-500 text-sm"
+            >
+              + Добавить изображение
+            </button>
             <button
               type="submit"
               className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
@@ -224,17 +244,17 @@ export default function AdminPage({}: Props) {
       <div className="flex flex-col gap-3">
         {products.map((product) => (
           <div
-            className="p-4 bg-white shadow-xl rounded-xl flex gap-2 items-start justify-between"
+            className="p-4 bg-white shadow-xl rounded-xl flex gap-2 items-start"
             key={product.id}
           >
             <Image
-              src={product.imageUrl}
+              src={product.images[0]}
               width={120}
               height={140}
               className="rounded-lg"
               alt={product.name}
             />
-            <div className="justify-self-start">
+            <div className="justify-self-start flex-1">
               <div className="font-medium text-sm">{product.name}</div>
               <span className="font-bold text-xl mt-40">{product.price}</span>
             </div>

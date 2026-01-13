@@ -8,8 +8,8 @@ import { Heart, MessageCircle, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PagesConfig } from '@/config/config.pages';
-import { useProductDetail } from '@/useProductDetail';
 import { useFavorite } from '@/hooks/useFavorite';
+import { useProductDetail } from './useProductDetail'
 
 interface Props {
   product: TProductWithReviews;
@@ -25,10 +25,10 @@ export function ProductItem({ product }: Props) {
       <div className="relative">
         <Link href={PagesConfig.PRODUCT_DETAILS(product.id)}>
           <Image
-            width={280}
+            width={291}
             height={373}
             alt={product.name}
-            src={product.imageUrl}
+            src={product.images[0]}
             draggable={false}
             className="object-cover h-93.25 rounded-2xl"
           />

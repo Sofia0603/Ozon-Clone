@@ -3,7 +3,7 @@ import { getAllProducts } from './admin/get-products';
 import { ProductItem } from '@/components/elements/product-item/ProductItem';
 import { Slider } from '@/components/pages/home/Slider/Slider';
 
-export default async function Home({children }) {
+export default async function Home({ children }) {
   const products = await getAllProducts();
   return (
     <>
