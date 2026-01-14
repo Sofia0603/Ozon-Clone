@@ -20,7 +20,7 @@ export function Favorites() {
 
   return (
     <div className="mt-10">
-      <h1 className="font-bold text-4xl">Favorites</h1>
+      <h1 className="font-bold text-4xl">Избранное</h1>
 
       <div className="mt-5">
         {favoritesProductId.length ? ( 

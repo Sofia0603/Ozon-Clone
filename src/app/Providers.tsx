@@ -12,10 +12,9 @@ export default function Providers({ children }: PropsWithChildren<unknown>) {
       <Provider>
         {children}
         <Toaster 
-          position='top-right'
-
+          position='top-right' 
         />
-      </Provider>
+      </Provider> 
     </QueryClientProvider>
   );
 }

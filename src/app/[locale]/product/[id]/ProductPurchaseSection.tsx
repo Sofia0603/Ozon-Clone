@@ -1,26 +1,38 @@
-import { Button } from '@/components/ui/Button'
-import { useFavorite } from '@/hooks/useFavorite'
-import { TProductWithReviews } from '@/lib/db/types'
-import { addCurrency } from '@/utils/add-currency'
-import { cn } from '@/utils/cn'
-import { Heart } from 'lucide-react'
-import { useId } from 'react'
-import { toast } from 'sonner'
+import { Button } from '@/components/ui/Button';
+import { useFavorite } from '@/hooks/useFavorite';
+import { addToCart } from '@/lib/actions/cart';
+import { TProductWithReviews } from '@/lib/db/types';
+import { addCurrency } from '@/utils/add-currency';
+import { cn } from '@/utils/cn';
+import { Heart } from 'lucide-react';
+import { useId, useState, useTransition } from 'react';
+import { toast } from 'sonner';
 
 interface Props {
-	product: TProductWithReviews,
-	discountPrecent : number
+  product: TProductWithReviews;
+  discountPrecent: number;
 }
 
 export function ProductPurchaseSection({ product, discountPrecent }: Props) {
-
   const { isFavorite, toggleFavorite } = useFavorite({ product });
 
-  const id = useId()
+  const [isPending, startTransition] = useTransition();
+  const [isAdded, setIsAdded] = useState(false);
 
   const purchaseProduct = () => {
-    toast.success('Товар добавлен в корзину', { id })
-  }
+    startTransition(async () => {
+      const result = await addToCart(product.id);
+
+      if (result.success) {
+        setIsAdded(true);
+        toast.success('Товар добавлен в корзину', { id: product.id });
+      } else {
+        toast.error('Не удалось добавить товар в корзину', {
+          id: product.id,
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -42,11 +54,15 @@ export function ProductPurchaseSection({ product, discountPrecent }: Props) {
             )}
 
             {discountPrecent && (
-              <span className="text-pink-600 font-bol d text-sm">-{discountPrecent}%</span>
+              <span className="text-pink-600 font-bol d text-sm">
+                -{discountPrecent}%
+              </span>
             )}
           </div>
           <div className="flex gap-4">
-            <Button onClick={purchaseProduct}>Добавить в корзину</Button>
+            <Button onClick={purchaseProduct} disabled={isPending}>
+              {isPending ? 'Добавление...' : ' Добавить в корзину'}
+            </Button>
 
             <button onClick={toggleFavorite}>
               <Heart

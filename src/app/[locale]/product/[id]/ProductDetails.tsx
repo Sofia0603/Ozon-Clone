@@ -18,7 +18,7 @@ export function ProductDetails({ product }: Props) {
 
   return (
     <div className="mt-6">
-      <Breadcrumbs />
+      <Breadcrumbs product={product}/>
       <div className="mt-2 grid grid-cols-[2fr_1.5fr_1.2fr] gap-10">
         <ProductDetailsGallery
           product={product}

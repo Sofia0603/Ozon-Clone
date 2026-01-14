@@ -1,4 +1,5 @@
 import { ChartBarStacked, Copy, Forward } from 'lucide-react';
+import { TProductWithReviews } from '@/lib/db/types'
 
 const crumbs = ['Красота и здоровье', 'Обувь', 'Уги'];
 
@@ -17,16 +18,24 @@ const menu = [
   },
 ];
 
-export function Breadcrumbs() {
+interface Props {
+  product: TProductWithReviews
+}
+
+
+export function Breadcrumbs({product}: Props) {
   return (
     <div className='font-medium flex items-center justify-between'>
       <div className="flex items-center gap-2 text-sm text-neutral-500">
         {crumbs.map((crumb, index) => (
 					<span className="flex items-center gap-2" key={index}>
             {crumb}
-            {index < crumbs.length - 1 && <span className="w-1 h-1 bg-neutral-400 rounded-full" />}
+            {index < crumbs.length + 1 && <span className="w-1 h-1 bg-neutral-400 rounded-full" />}
           </span>
 				))}
+        <span className="flex items-center gap-2">
+            {product.name}
+          </span>
       </div>
 
 			<div className='flex items-center gap-6 mt-4'>
