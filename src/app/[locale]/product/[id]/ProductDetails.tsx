@@ -9,9 +9,10 @@ import { ProductPurchaseSection } from './ProductPurchaseSection';
 
 interface Props {
   product: TProductWithReviews;
+  quantityInCart: number
 }
 
-export function ProductDetails({ product }: Props) {
+export function ProductDetails({ product, quantityInCart }: Props) {
   const { reviewCount, reviewAverage,   discountPrecent } = useProductDetail({
     product,
   });
@@ -32,6 +33,7 @@ export function ProductDetails({ product }: Props) {
         <ProductPurchaseSection
           product={product}
           discountPrecent={discountPrecent}
+          quantityInCart={quantityInCart}
         />
       </div>
     </div>

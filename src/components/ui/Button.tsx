@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isDisabled?: boolean;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'green';
 }
 
 export function Button({
@@ -20,6 +20,7 @@ export function Button({
         {
           'opacity-50 cursur-not-allowed': isDisabled,
           'bg-transparent text-foreground': variant === 'secondary',
+          'bg-green-500 ': variant === 'green',
         },
         className
       )}

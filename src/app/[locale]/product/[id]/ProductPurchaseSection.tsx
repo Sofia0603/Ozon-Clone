@@ -1,30 +1,35 @@
 import { Button } from '@/components/ui/Button';
+import { PagesConfig } from '@/config/config.pages';
 import { useFavorite } from '@/hooks/useFavorite';
-import { addToCart } from '@/lib/actions/cart';
+import { addToCart, updateCartItemQuantity } from '@/lib/actions/cart';
 import { TProductWithReviews } from '@/lib/db/types';
 import { addCurrency } from '@/utils/add-currency';
 import { cn } from '@/utils/cn';
-import { Heart } from 'lucide-react';
-import { useId, useState, useTransition } from 'react';
+import { Heart, Minus, Plus } from 'lucide-react';
+import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
+import { useRouter } from '@/i18n/navigation';
 
 interface Props {
   product: TProductWithReviews;
   discountPrecent: number;
+  quantityInCart: number;
 }
 
-export function ProductPurchaseSection({ product, discountPrecent }: Props) {
-  const { isFavorite, toggleFavorite } = useFavorite({ product });
-
+export function ProductPurchaseSection({
+  product,
+  discountPrecent,
+  quantityInCart,
+}: Props) {
+  const {isFavorite, toggleFavorite } = useFavorite({ product });
   const [isPending, startTransition] = useTransition();
-  const [isAdded, setIsAdded] = useState(false);
+
 
   const purchaseProduct = () => {
     startTransition(async () => {
       const result = await addToCart(product.id);
 
       if (result.success) {
-        setIsAdded(true);
         toast.success('Товар добавлен в корзину', { id: product.id });
       } else {
         toast.error('Не удалось добавить товар в корзину', {
@@ -33,6 +38,15 @@ export function ProductPurchaseSection({ product, discountPrecent }: Props) {
       }
     });
   };
+  const [isPendingQuantity, startTransitionQuantity] = useTransition();
+
+  const updateQuantityInCart = (type: 'increment' | 'decrement') => {
+    startTransitionQuantity(async () => {
+      await updateCartItemQuantity(product.id, type === 'increment' ? quantityInCart + 1 : quantityInCart - 1);
+    });
+  };
+
+  const router = useRouter();
 
   return (
     <div>
@@ -60,9 +74,43 @@ export function ProductPurchaseSection({ product, discountPrecent }: Props) {
             )}
           </div>
           <div className="flex gap-4">
-            <Button onClick={purchaseProduct} disabled={isPending}>
-              {isPending ? 'Добавление...' : ' Добавить в корзину'}
-            </Button>
+            {quantityInCart > 0 ? (
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => {
+                    router.push(PagesConfig.CART);
+                  }}
+                  className="flex flex-col leading-none"
+                  variant="green"
+                >
+                  <span className="font-semibold">В корзине</span>
+                  <span className="text-sm font-light">перейти</span>
+                </Button>
+                <div className="flex items-center gap-0.5">
+                  <button
+                    className="bg-blue-50 text-primary px-4 py-3.5 rounded-2xl transition-colors hover:bg-blue-100"
+                    onClick={() => updateQuantityInCart('decrement')}
+                    disabled={isPendingQuantity}
+                  >
+                    <Minus />
+                  </button>
+                  <span className="font-medium px-4 py-2">
+                    {quantityInCart}
+                  </span>
+                  <button
+                    className="bg-blue-50 text-primary px-4 py-3.5 rounded-2xl transition-colors hover:bg-blue-100"
+                    onClick={() => updateQuantityInCart('increment')}
+                    disabled={isPendingQuantity}
+                  >
+                    <Plus /> 
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Button onClick={purchaseProduct} disabled={isPending}>
+                {isPending ? 'Добавление...' : ' Добавить в корзину'}
+              </Button>
+            )}
 
             <button onClick={toggleFavorite}>
               <Heart

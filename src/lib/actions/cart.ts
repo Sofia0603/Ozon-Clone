@@ -6,7 +6,6 @@ import { cart, cartItem } from '../db/schema';
 import { getUser } from '@/lib/actions/user';
 import { revalidatePath } from 'next/cache';
 import { PagesConfig } from '@/config/config.pages';
-import { success } from 'better-auth';
 
 async function getOrCreateCart(userId: string) {
   let userCart = await db.query.cart.findFirst({
@@ -99,17 +98,17 @@ export async function addToCart(productId: string, quantity: number = 1) {
   }
 }
 
-export async function updateCartItemQuantity(itemId: string, quantity: number) {
+export async function updateCartItemQuantity(productId: string, quantity: number) {
   try {
     if (quantity <= 0) {
-      await db.delete(cartItem).where(eq(cartItem.id, itemId));
+      await db.delete(cartItem).where(eq(cartItem.productId, productId));
     } else {
       await db
         .update(cartItem)
         .set({
           quantity,
         })
-        .where(eq(cartItem.id, itemId));
+        .where(eq(cartItem.productId, productId));
     }
 
     revalidatePath(PagesConfig.CART);
