@@ -1,5 +1,7 @@
 'use client';
 
+import { PagesConfig } from '@/config/config.pages';
+import { useFavorite } from '@/hooks/useFavorite';
 import { TProductWithReviews } from '@/lib/db/types';
 import { addCurrency } from '@/utils/add-currency';
 import { cn } from '@/utils/cn';
@@ -7,9 +9,7 @@ import { declensionWord } from '@/utils/declension-word';
 import { Heart, MessageCircle, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PagesConfig } from '@/config/config.pages';
-import { useFavorite } from '@/hooks/useFavorite';
-import { useProductDetail } from './useProductDetail'
+import { useProductDetail } from '../../../hooks/useProductDetail';
 
 interface Props {
   product: TProductWithReviews;
@@ -18,7 +18,9 @@ interface Props {
 export function ProductItem({ product }: Props) {
   const { isFavorite, toggleFavorite } = useFavorite({ product });
 
-  const { reviewCount, reviewAverage, discountPrecent } = useProductDetail({ product });
+  const { reviewCount, reviewAverage, discountPrecent } = useProductDetail({
+    product,
+  });
 
   return (
     <div>
@@ -69,12 +71,16 @@ export function ProductItem({ product }: Props) {
         )}
 
         {discountPrecent && (
-          <span className="text-pink-600 font-bol d text-sm">-{discountPrecent}%</span>
+          <span className="text-pink-600 font-bol d text-sm">
+            -{discountPrecent}%
+          </span>
         )}
       </div>
 
       <div className="leading-snug">
-        <Link href={PagesConfig.PRODUCT_DETAILS(product.id)}>{product.name}</Link>
+        <Link href={PagesConfig.PRODUCT_DETAILS(product.id)}>
+          {product.name}
+        </Link>
       </div>
 
       <div className="flex items-center gap-3 mt-2">
@@ -84,9 +90,13 @@ export function ProductItem({ product }: Props) {
         </div>
 
         <div className="flex items-center gap-1">
-          <MessageCircle size={16} className="fill-neutral-400 stroke-neutral-400" />
+          <MessageCircle
+            size={16}
+            className="fill-neutral-400 stroke-neutral-400"
+          />
           <span className="font-semibold text-sm text-neutral-400">
-            {reviewCount} {declensionWord(reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
+            {reviewCount}{' '}
+            {declensionWord(reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
           </span>
         </div>
       </div>

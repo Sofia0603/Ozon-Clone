@@ -1,15 +1,18 @@
 import { useMemo } from 'react';
 import { TProductWithReviews } from './lib/db/types';
+import { useProductDiscount } from './useProductDiscount';
 
-export function useProductDetail({ product }: { product: TProductWithReviews }) {
+export function useProductDetail({
+  product,
+}: {
+  product: TProductWithReviews;
+}) {
   const reviews = product.reviews ?? [];
 
-  const discountPrecent = useMemo(() => {
-    if (!product.discountPrice) {
-      return null;
-    }
-    return Math.round(((product.price - product.discountPrice) / product.price) * 100);
-  }, [product.price, product.discountPrice]);
+  const { discountPrecent } = useProductDiscount({
+    price: product.price,
+    discountPrice: product.discountPrice,
+  });
 
   const reviewAverage = useMemo(() => {
     if (reviews.length === 0) {

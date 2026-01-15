@@ -1,6 +1,6 @@
 'use client';
 
-import { useProductDetail } from '@/components/elements/product-item/useProductDetail';
+import { useProductDetail } from '@/hooks/useProductDetail';
 import { TProductWithReviews } from '@/lib/db/types';
 import { Breadcrumbs } from './Breadcrumbs';
 import { ProductDetailsGallery } from './ProductDetailsGallery';
@@ -9,17 +9,17 @@ import { ProductPurchaseSection } from './ProductPurchaseSection';
 
 interface Props {
   product: TProductWithReviews;
-  quantityInCart: number
+  quantityInCart: number;
 }
 
 export function ProductDetails({ product, quantityInCart }: Props) {
-  const { reviewCount, reviewAverage,   discountPrecent } = useProductDetail({
+  const { reviewCount, reviewAverage, discountPrecent } = useProductDetail({
     product,
   });
 
   return (
     <div className="mt-6">
-      <Breadcrumbs product={product}/>
+      <Breadcrumbs product={product} />
       <div className="mt-2 grid grid-cols-[2fr_1.5fr_1.2fr] gap-10">
         <ProductDetailsGallery
           product={product}

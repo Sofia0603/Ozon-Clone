@@ -1,8 +1,8 @@
+import { TProduct } from '@/lib/db/types'
 import { favoritesProductIdAtom } from '@/store'
 import { useAtom } from 'jotai'
-import { TProductWithReviews } from '@/lib/db/types'
 
-export function useFavorite({product}:{product: TProductWithReviews}) {
+export function useFavorite({product}:{product: TProduct}) {
   const [favoritesProductId, setFavoritesProductId] = useAtom(favoritesProductIdAtom);
 
   const isFavorite = favoritesProductId.includes(product.id);

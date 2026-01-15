@@ -9,6 +9,8 @@ import { Heart, Minus, Plus } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from '@/i18n/navigation';
+import { ProductQuantity } from '@/components/elements/product-quantity/ProductQuantity';
+import { useChangeQuantity } from '@/components/elements/product-quantity/useChangeQuantity'
 
 interface Props {
   product: TProductWithReviews;
@@ -21,9 +23,8 @@ export function ProductPurchaseSection({
   discountPrecent,
   quantityInCart,
 }: Props) {
-  const {isFavorite, toggleFavorite } = useFavorite({ product });
+  const { isFavorite, toggleFavorite } = useFavorite({ product });
   const [isPending, startTransition] = useTransition();
-
 
   const purchaseProduct = () => {
     startTransition(async () => {
@@ -38,13 +39,11 @@ export function ProductPurchaseSection({
       }
     });
   };
-  const [isPendingQuantity, startTransitionQuantity] = useTransition();
 
-  const updateQuantityInCart = (type: 'increment' | 'decrement') => {
-    startTransitionQuantity(async () => {
-      await updateCartItemQuantity(product.id, type === 'increment' ? quantityInCart + 1 : quantityInCart - 1);
-    });
-  };
+  const {isPendingQuantity, updateQuantityInCart} = useChangeQuantity({
+    product,
+    quantityInCart
+  })
 
   const router = useRouter();
 
@@ -86,25 +85,11 @@ export function ProductPurchaseSection({
                   <span className="font-semibold">В корзине</span>
                   <span className="text-sm font-light">перейти</span>
                 </Button>
-                <div className="flex items-center gap-0.5">
-                  <button
-                    className="bg-blue-50 text-primary px-4 py-3.5 rounded-2xl transition-colors hover:bg-blue-100"
-                    onClick={() => updateQuantityInCart('decrement')}
-                    disabled={isPendingQuantity}
-                  >
-                    <Minus />
-                  </button>
-                  <span className="font-medium px-4 py-2">
-                    {quantityInCart}
-                  </span>
-                  <button
-                    className="bg-blue-50 text-primary px-4 py-3.5 rounded-2xl transition-colors hover:bg-blue-100"
-                    onClick={() => updateQuantityInCart('increment')}
-                    disabled={isPendingQuantity}
-                  >
-                    <Plus /> 
-                  </button>
-                </div>
+                <ProductQuantity
+                  updateQuantityInCart={updateQuantityInCart}
+                  isPendingQuantity={isPendingQuantity}
+                  quantityInCart={quantityInCart}
+                />
               </div>
             ) : (
               <Button onClick={purchaseProduct} disabled={isPending}>
