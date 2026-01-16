@@ -12,7 +12,7 @@ export function ProductQuantity({
   updateQuantityInCart,
   isPendingQuantity,
   quantityInCart,
-  colors = ['bg-blue-100/50', 'hover: bg-blue-200/70', 'text-primary'],
+  colors = ['bg-blue-100/50', 'hover:bg-blue-200/70', 'text-primary'],
 }: Props) {
   return (
     <div className="flex items-center gap-0.5">

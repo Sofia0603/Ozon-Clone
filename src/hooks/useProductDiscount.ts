@@ -12,4 +12,5 @@ export function useProductDiscount({ discountPrice, price }: Props) {
     }
     return Math.round(((price - discountPrice) / price) * 100);
   }, [price, discountPrice]);
+  return { discountPrecent };
 }

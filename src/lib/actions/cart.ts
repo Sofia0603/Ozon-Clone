@@ -43,9 +43,19 @@ export async function getCart() {
       return acc + price * item.quantity;
     }, 0);
 
+    const totalDiscount = items.reduce((acc, item) => {
+      if(item.product.discountPrice){
+        const discount = item.product.price - item.product.discountPrice
+        return  acc + discount * item.quantity
+      }
+
+      return acc
+    }, 0)
+
     return {
       items,
       total,
+      totalDiscount,
       count: items.reduce((acc, item) => acc + item.quantity, 0),
     };
   } catch {

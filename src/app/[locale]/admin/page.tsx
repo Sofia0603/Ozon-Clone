@@ -114,7 +114,7 @@ export default function AdminPage({}: Props) {
         setDescription('');
         setPrice('');
         setDiscountPrice('');
-        setImages('');
+        setImages(['']);
       } else {
         setMessage(`Ошибка: ${data.error}`);
       }

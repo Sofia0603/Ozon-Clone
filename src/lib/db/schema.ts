@@ -155,7 +155,7 @@ export const userRealtion = relations(user, ({ many, one }) => ({
   orders: many(order),
   cart: one(cart, {
     fields: [user.id],
-    references:[cart.userId] 
+    references: [cart.userId],
   }),
 }));
 
@@ -167,5 +167,24 @@ export const cartItemRealtion = relations(cartItem, ({ one }) => ({
   product: one(product, {
     fields: [cartItem.productId],
     references: [product.id],
-  })
+  }),
 }));
+
+export const orderRelation = relations(order, ({ one, many }) => ({
+  user: one(user, {
+    fields: [order.userId],
+    references: [user.id]
+  }),
+  items: many(orderItem)
+}));
+
+export const orderItemRelation = relations(orderItem, ({one}) => ({
+  product: one(product, {
+    fields: [orderItem.productId],
+    references: [product.id]
+  }),
+  order: one(order, {
+    fields: [orderItem.orderId],
+    references: [order.id]
+  })
+}))

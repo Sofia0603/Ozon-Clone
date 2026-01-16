@@ -19,7 +19,10 @@ export function useProductDetail({
       return 0;
     }
 
-    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
+    const total = reviews.reduce(
+      (acc, review) => acc + review.rating,
+      0
+    );
 
     return Math.round(total / reviews.length).toFixed(1);
   }, [reviews]);
