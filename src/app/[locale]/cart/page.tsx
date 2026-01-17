@@ -1,7 +1,6 @@
 import { getCart } from '@/lib/actions/cart';
 import { Metadata } from 'next';
 import { CartItem } from './CartItem';
-import { Button } from '@/components/ui/Button';
 import { addCurrency } from '@/utils/add-currency';
 import { CheckoutButton } from './CheckoutButton'
 

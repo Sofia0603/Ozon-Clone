@@ -39,7 +39,7 @@ export async function createOrder() {
     const [newOrder] = await db
       .insert(order)
       .values({
-        id: crypto.randomUUID,
+        id: crypto.randomUUID(),
         userId,
         total,
         status: 'paid',
@@ -48,7 +48,7 @@ export async function createOrder() {
 
     for (const item of userCart.items) {
       await db.insert(orderItem).values({
-        id: crypto.randomUUID,
+        id: crypto.randomUUID(),
         orderId: newOrder.id,
         productId: item.productId,
         quantity: item.quantity,
@@ -88,7 +88,6 @@ export async function getUserOrders() {
 			},
 			orderBy: (order, {desc}) => [desc(order.createdAt)]
 		})
-
 		return orders
 
   } catch {

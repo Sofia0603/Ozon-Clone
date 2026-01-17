@@ -12,7 +12,7 @@ export default async function Home({ children }) {
         alt="Banner"
         width={1407}
         height={94}
-        className="mx-auto mt-5"
+        className="mx-auto"
         draggable={false}
       />
 
